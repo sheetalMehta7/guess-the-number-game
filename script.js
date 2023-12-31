@@ -28,9 +28,22 @@ function handleGuess() {
     const guessedValue = Number(guessInputField.value);
     let messageText = "";
 
+    if (!guessedValue) {
+        messageText = "Please enter a number";
+        message.innerText = messageText;
+        return;
+    }
+
+    if (score === 0) {
+        messageText = "You lost the game. Try again!";
+        message.innerText = messageText;
+        return;
+    }
+
     if (guessedValue === randomNumber) {
         // Handle correct guess.
-        highScore += randomNumber;
+        if (score > highScore) highScore = score;
+        else highScore += randomNumber;
         messageText = "Hooray🥳 You got it!";
         numberDisplay.innerText = randomNumber;
         body.style.backgroundColor = "#60b347";
@@ -49,12 +62,9 @@ function handleGuess() {
     message.innerText = messageText;
 }
 
-window.onload = function (e) {
+window.onload = function () {
     generateRandomNum();
 };
 
 againBtn.addEventListener("click", generateRandomNum);
 checkBtn.addEventListener("click", handleGuess);
-
-
-
